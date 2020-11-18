@@ -1,0 +1,76 @@
+private void MoveTest(GameObject targetOb, Vector2 target, Vector2 direction, bool move, float distance = Mathf.Infinity, bool skip = false, bool king = false) { //The test for if a tile is threatened
+        RaycastHit2D[] hitArray = Physics2D.RaycastAll(target, direction, distance);
+        int i = 0;
+        HashSet<GameObject> noMove = new HashSet<GameObject>();
+        List<Collider2D> collisions = new List<Collider2D>();
+        ContactFilter2D filters = new ContactFilter2D();
+        Vector3 fromPosition = targetOb.transform.position;
+        Vector3 toPosition = new Vector3(0f,0f,0f);
+        Vector3 direction2 = new Vector3(0f,0f,0f);
+        filters.NoFilter();
+        filters.useTriggers = true;
+        targetOb.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
+        foreach (Collider2D test in collisions) {
+            if ((test.gameObject.CompareTag("White") != targetOb.CompareTag("White")) & !test.gameObject.CompareTag("Board")) {
+                if (test.gameObject.GetComponent<Piece>().PassPiece() != "Knight") {
+                    toPosition = test.gameObject.transform.position;
+                    direction2 = toPosition - fromPosition;
+                    hitArray = Physics2D.RaycastAll(target, direction2, Mathf.Infinity);
+                    foreach (RaycastHit2D hit in hitArray) {
+                        if (hit.transform.CompareTag("White") == targetOb.CompareTag("White")) {
+                            if (hit.transform.gameObject.GetComponent<Piece>().PassPiece() == "King") {
+                                return;
+                            }
+                            else {
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        hitArray = Physics2D.RaycastAll(target, direction, distance);
+        foreach (RaycastHit2D hit in hitArray) {
+            if (hit.transform.gameObject != targetOb) {
+                if (i >= 1 | skip) {
+                    if ((hit.transform.CompareTag("White") & _global.PassTurn()) | (hit.transform.CompareTag("Black") & !_global.PassTurn())) {
+                        hit.transform.gameObject.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
+                        foreach(Collider2D test in collisions) {
+                            if (test.gameObject.CompareTag("Board")) {
+                                test.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, false);
+                                test.gameObject.GetComponent<Tile>().ChangeCircleRender(false);
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    else if (hit.transform.CompareTag("Board")) {
+                        if (!_checkmate.PassCheck() | (_checkmate.PassCheck() & hit.transform.gameObject.GetComponent<Tile>().PassBlock() & !king)) {
+                            hit.transform.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, true);
+                            if (move) {
+                                hit.transform.gameObject.GetComponent<Tile>().ChangeCircleRender(true);
+                            }
+                        }
+                    }
+                    else if (hit.transform.CompareTag("White") | hit.transform.CompareTag("Black")) {
+                        hit.transform.gameObject.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
+                        foreach(Collider2D test in collisions) {
+                            if (test.gameObject.CompareTag("Board")) {
+                                if (!_checkmate.PassCheck() | (_checkmate.PassCheck() & test.gameObject.GetComponent<Tile>().PassBlock() & !king)) {
+                                    test.transform.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, true);
+                                    if (move) {
+                                        test.transform.gameObject.GetComponent<Tile>().ChangeCircleRender(true);
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+                else {
+                    i++;
+                }
+            }
+        }
+    }
