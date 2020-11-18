@@ -60,9 +60,9 @@ public class Movement : MonoBehaviour //All tests related to piece movement
                 continue;
             }
             if (!skip) {
-                if (move) {
-                    Debug.Log("Here\n" + hit.transform.gameObject.name);
-                }
+                //if (move) {
+                    //Debug.Log("Here\n" + hit.transform.gameObject.name);
+                //}
                 skip = true;
                 continue;
             }

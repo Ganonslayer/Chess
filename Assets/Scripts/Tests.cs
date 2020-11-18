@@ -167,7 +167,7 @@ public class Tests : MonoBehaviour
             foreach (GameObject tile in tilesTest) {
                 if (tile.GetComponent<Tile>().Blockable()) {
                     i++;
-                    Debug.Log(tile);
+                    //Debug.Log(tile);
                 }
             }
             if (i > 0 | _movement.KingMoveTest(king, false)) {

@@ -40,7 +40,7 @@ public class Tile : MonoBehaviour
     }
 
     public void ChangeCircleRender(bool newState = true) { //Change is the circle renders
-        Debug.Log(newState + "\n" + transform.gameObject.name);
+        //Debug.Log(newState + "\n" + transform.gameObject.name);
         _movingTo = newState;
     }
 
