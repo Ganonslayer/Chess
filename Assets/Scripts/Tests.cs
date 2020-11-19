@@ -32,6 +32,57 @@ public class Tests : MonoBehaviour
         }
     }
 
+    public bool TestMoveCheck(GameObject target) {
+        HashSet<GameObject> threats = new HashSet<GameObject>();
+        List<Collider2D> collisions = new List<Collider2D>();
+        ContactFilter2D filters = new ContactFilter2D();
+        filters.NoFilter();
+        Vector3 fromPosition = target.transform.position;
+        Vector3 toPosition = new Vector3(0f,0f,0f);
+        Vector3 direction = toPosition;
+        filters.useTriggers = true;
+        target.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
+        foreach (Collider2D tile in collisions) {
+            if (tile) {
+                if (tile.transform.gameObject.CompareTag("Board")) {
+                    threats = tile.transform.gameObject.GetComponent<Tile>().PassThreats();
+                    foreach (GameObject threat in threats) {
+                        if (!threat) {
+                            continue;
+                        }
+                        if (threat == target) {
+                            continue;
+                        }
+                        if (threat.tag == target.tag) {
+                            continue;
+                        }
+                        if (threat.GetComponent<Piece>().PassPiece() != "Knight" & threat.GetComponent<Piece>().PassPiece() != "King" & threat.GetComponent<Piece>().PassPiece() != "Pawn") {
+                            toPosition = threat.transform.position;
+                            direction = fromPosition - toPosition;
+                            RaycastHit2D[] hitArray = Physics2D.RaycastAll(new Vector2(target.transform.position.x, target.transform.position.y), direction, -Mathf.Infinity);
+                            foreach (RaycastHit2D hit in hitArray) {
+                                if (hit) {
+                                    if (!hit.transform.gameObject.CompareTag("Board")) {
+                                        if (hit.transform.gameObject == target) {
+                                            continue;
+                                        }
+                                        if (hit.transform.gameObject.GetComponent<Piece>().PassPiece() == "King") {
+                                            return true;
+                                        }
+                                        else {
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /*public HashSet<GameObject> TestCheck(bool dummy = false) {
         HashSet<GameObject> threats = new HashSet<GameObject>();
         HashSet<GameObject> tiles = new HashSet<GameObject>();

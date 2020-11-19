@@ -1,0 +1,1 @@
+/[KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[/][KQRNBPkqrnbp12345678]{1,8}[ ](w|b)[ ]((K?Q?k?q?)|-)[ ](-|[abcdefgh]{1}[12345678]{1})[ ][0123456789]{1,}[ ][0123456789]{1,}/g

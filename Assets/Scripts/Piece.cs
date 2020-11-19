@@ -13,6 +13,8 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private FEN _fen = null;
     [SerializeField]
+    private Tests _tests = null;
+    [SerializeField]
     private Movement _movement = null;
     private bool _moving = false;
     private bool _enPassent = false;
@@ -52,6 +54,9 @@ public class Piece : MonoBehaviour
     }
 
     public void OnMouseDown() { //What happens when you click on a piece
+        if (_tests.TestMoveCheck(transform.gameObject)) {
+            return;
+        }
         PieceClicked(true, false);
     }
 
