@@ -213,6 +213,7 @@ public class Tests : MonoBehaviour
                             threats = kingTile.transform.gameObject.GetComponent<Tile>().PassThreats();
                             foreach (GameObject threat in threats) {
                                 if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & piece.transform.position != threat.transform.position) {
+                                    Debug.Log(threat.name);
                                     tiles.Add(kingTile.transform.gameObject);
                                     check = true;
                                     break;
@@ -251,7 +252,21 @@ public class Tests : MonoBehaviour
             }
         }
         else if(!check & !dummy) {
-            _checkmate.ExitCheck();
+            foreach (GameObject piece in pieces) {
+                if (piece.GetComponent<Piece>().PieceClicked(false, true)) {
+                    safe = true;
+                    break;
+                }
+                else {
+                    safe = false;
+                }
+            }
+            if (safe) {
+                _checkmate.ExitCheck();
+            }
+            else {
+                _checkmate.EnterStalemate("No Legal Moves!");
+            }
         }
         return (tiles);
     }
