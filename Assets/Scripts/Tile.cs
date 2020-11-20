@@ -7,7 +7,7 @@ public class Tile : MonoBehaviour
     private HashSet<GameObject> _threateningPieces = new HashSet<GameObject>();
     private bool _movingTo = false;
     [SerializeField]
-    private Checkmate _checkmate = null;
+    private Tests _tests = null;
     [SerializeField]
     private Global _global = null;
     private bool _blockable = false; //If a piece starts occupying this tile, will it take the king out of check
@@ -40,7 +40,6 @@ public class Tile : MonoBehaviour
     }
 
     public void ChangeCircleRender(bool newState = true) { //Change is the circle renders
-        //Debug.Log(newState + "\n" + transform.gameObject.name);
         _movingTo = newState;
     }
 
@@ -54,6 +53,7 @@ public class Tile : MonoBehaviour
         List<GameObject> rooks = new List<GameObject>();
         GameObject[] tiles = GameObject.FindGameObjectsWithTag("Board");
         if (_movingTo) {
+            _tests.DelayCheckmate();
             piece = (_global.PassMovingPiece()).GetComponent<Piece>();
             if ((transform.position.y == _global.PassMovingPiece().transform.position.y) & piece.PassPiece() == "Pawn") {
                 piece.EnPassented();
@@ -79,9 +79,6 @@ public class Tile : MonoBehaviour
             dummy = _global.ChangeTurn();
             _global.UnCircle();
             piece.Moved();
-            if (piece.PassPiece() != "King" & !killFlag) {
-                _checkmate.TestIncrement(_global.PassTurn());
-            }
         }
     }
 

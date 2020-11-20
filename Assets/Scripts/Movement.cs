@@ -68,7 +68,13 @@ public class Movement : MonoBehaviour //All tests related to piece movement
                 foreach (Collider2D tile in tiles) {
                     if (tile != null) {
                         if (tile.transform.CompareTag("Board")) {
-                            tile.transform.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, true);
+                            if (!king) {
+                                tile.transform.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, true);
+                            }
+                            else {
+                                tile.transform.gameObject.GetComponent<Tile>().ChangeThreat(targetOb, false);
+                                legalMove = false;
+                            }
                             if (move) {
                                 tile.transform.gameObject.GetComponent<Tile>().ChangeCircleRender(false);
                             }
@@ -103,7 +109,9 @@ public class Movement : MonoBehaviour //All tests related to piece movement
                         }
                     }
                 }
-                break;
+                if (hit.transform.gameObject.GetComponent<Piece>().PassPiece() != "King") {
+                    break;
+                }
             }
         }
         return legalMove;
@@ -157,6 +165,7 @@ public class Movement : MonoBehaviour //All tests related to piece movement
             CastleTest(target, move);
         }
         int z = KingCannotMove(target);
+        z--;
         foreach (bool legalMove in legal) {
             if (legalMove & z>0) {
                 z--;

@@ -54,7 +54,7 @@ public class Piece : MonoBehaviour
     }
 
     public void OnMouseDown() { //What happens when you click on a piece
-        if (_tests.TestMoveCheck(transform.gameObject)) {
+        if (_tests.TestMoveCheck(transform.gameObject) & _global.PassTurn() == _white) {
             return;
         }
         PieceClicked(true, false);
@@ -123,14 +123,12 @@ public class Piece : MonoBehaviour
     public void TestKill() { //Remove an enemy piece when you take it
         List<Collider2D> collisions = new List<Collider2D>();
         ContactFilter2D filters = new ContactFilter2D();
-        int dummy = 0;
         filters.NoFilter();
         filters.useTriggers = true;
         Physics2D.OverlapCollider(transform.gameObject.GetComponent<BoxCollider2D>(), filters, collisions);
         foreach (Collider2D other in collisions) {
             if (other != null) {
                 if((other.CompareTag("Black") & _white) | (other.CompareTag("White") & !_white)) {
-                    dummy = _global.UnThreaten(other.gameObject);
                     Destroy(other.gameObject);
                     break;
                 }

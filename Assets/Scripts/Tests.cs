@@ -13,9 +13,15 @@ public class Tests : MonoBehaviour
     private Checkmate _checkmate = null;
     [SerializeField]
     private GameObject[] _kings = {null, null};
+    private bool _delayCheckmate = false;
 
     private void FixedUpdate() {
-        TestCheck(false);
+        if (!_delayCheckmate) {
+            TestCheck(false);
+        }
+        else {
+            _delayCheckmate = false;
+        }
         if (_checkmate.PassCheck()) {
             if (_global.PassTurn()) {
                 MarkBlockableTiles(_kings[0]);
@@ -30,6 +36,10 @@ public class Tests : MonoBehaviour
                 tile.GetComponent<Tile>().CanBlock(false);
             }
         }
+    }
+
+    public void DelayCheckmate() {
+        _delayCheckmate = true;
     }
 
     public bool TestMoveCheck(GameObject target) {
@@ -171,6 +181,7 @@ public class Tests : MonoBehaviour
         List<Collider2D> kingTiles = new List<Collider2D>();
         bool check = false;
         GameObject king = null;
+        bool safe = true;
         List<Collider2D> collisions = new List<Collider2D>();
         ContactFilter2D filters = new ContactFilter2D();
         string[] tag = {"", ""};
@@ -201,7 +212,7 @@ public class Tests : MonoBehaviour
                         if (kingTile.transform.gameObject.CompareTag("Board")) {
                             threats = kingTile.transform.gameObject.GetComponent<Tile>().PassThreats();
                             foreach (GameObject threat in threats) {
-                                if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & kingTile.transform.position != threat.transform.position) {
+                                if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & piece.transform.position != threat.transform.position) {
                                     tiles.Add(kingTile.transform.gameObject);
                                     check = true;
                                     break;
@@ -217,8 +228,19 @@ public class Tests : MonoBehaviour
             GameObject[] tilesTest = GameObject.FindGameObjectsWithTag("Board");
             foreach (GameObject tile in tilesTest) {
                 if (tile.GetComponent<Tile>().Blockable()) {
-                    i++;
-                    //Debug.Log(tile);
+                    if (new Vector2(tile.transform.gameObject.transform.position.x, tile.transform.gameObject.transform.position.y) != new Vector2(king.transform.position.x, king.transform.position.y)) {
+                        threats = tile.transform.gameObject.GetComponent<Tile>().PassThreats();
+                        foreach (GameObject threat in threats) {
+                            if (threat.tag != king.tag) {
+                                safe = false;
+                                break;
+                            }
+                        }
+                        if (safe) {
+                            i++;
+                        }
+                        safe = true;
+                    }
                 }
             }
             if (i > 0 | _movement.KingMoveTest(king, false)) {

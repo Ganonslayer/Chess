@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Checkmate : MonoBehaviour
 {
-    private int _checkmateCounter = 0;
     private bool _check = false;
     [SerializeField]
     private GameObject _text = null;
@@ -20,20 +19,10 @@ public class Checkmate : MonoBehaviour
 
     public void ExitCheck() {
         _check = false;
-        _checkmateCounter = 0;
     }
 
     public bool PassCheck() {
         return(_check);
-    }
-
-    public void TestIncrement(bool white) {
-        if (_check) {
-            _checkmateCounter += 1;
-        }
-        if (_checkmateCounter == 1) {
-            EnterCheckmate(white);
-        }
     }
 
     public void EnterCheckmate(bool white) {
