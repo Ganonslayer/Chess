@@ -14,15 +14,11 @@ public class Movement : MonoBehaviour //All tests related to piece movement
     private Tests _tests = null;
     private GameObject[] _tiles = {};
 
-    //TODO: PIECE CANNOT MOVE IF IT WOULD PUT THE KING IN CHECK
-    //TODO: END GAME IF NO PIECES HAVE LEGAL MOVES AVAILABLE
-    //CHECKMATE CONDITIONS: King is threatened by a piece that cannot be blocked or take and every tile around it is occupied or threatened 
-
-    private void Start() {
+    private void Start() { //Start by setting one of the variable used for convienence
         _tiles = GameObject.FindGameObjectsWithTag("Board");
     }
 
-    public int KingCannotMove(GameObject target) {
+    public int KingCannotMove(GameObject target) { //Return the number of tiles the king cannot move to without entering check, and mark them as not available moves
         List<GameObject> dummyKing = new List<GameObject>();
         GameObject dummyKingPrefab = null;
         HashSet<GameObject> noMove = new HashSet<GameObject>();
@@ -48,7 +44,7 @@ public class Movement : MonoBehaviour //All tests related to piece movement
         return (noMove.Count);
     }
 
-    private bool MoveTest(GameObject targetOb, Vector2 target, Vector2 direction, bool move, float distance = Mathf.Infinity, bool skip = false, bool king = false, bool pawn = false) {
+    private bool MoveTest(GameObject targetOb, Vector2 target, Vector2 direction, bool move, float distance = Mathf.Infinity, bool skip = false, bool king = false, bool pawn = false) { //Mark and threaten the tiles for a piece in one direction
         RaycastHit2D[] hitArray = Physics2D.RaycastAll(target, direction, distance);
         ContactFilter2D filters = new ContactFilter2D();
         List<Collider2D> tiles = new List<Collider2D>();
@@ -162,7 +158,7 @@ public class Movement : MonoBehaviour //All tests related to piece movement
         legal[6] = MoveTest(target, new Vector2(target.transform.position.x, target.transform.position.y), (-Vector2.right + Vector2.up), move, 9f, false, true);
         legal[7] = MoveTest(target, new Vector2(target.transform.position.x, target.transform.position.y), (-Vector2.right - Vector2.up), move, 9f, false, true);
         if (!_checkmate.PassCheck()) {
-            CastleTest(target, move);
+            CastleTest(target, move); //Check for castling if it is available
         }
         int z = KingCannotMove(target);
         z--;
@@ -267,7 +263,7 @@ public class Movement : MonoBehaviour //All tests related to piece movement
         return legal;
     }
 
-    public void CastleTest(GameObject target, bool move) {
+    public void CastleTest(GameObject target, bool move) { //Check for castling being available
         target.GetComponent<Piece>().ChangeRook(null, false, true);
         if (!target.GetComponent<Piece>().PassMoved()) {
             RaycastHit2D[] hitArray = Physics2D.RaycastAll(new Vector2(target.transform.position.x, target.transform.position.y), -Vector2.right);

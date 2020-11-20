@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class FEN : MonoBehaviour
+public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-Edwards Notation), for use in testing the threefold repition rule
 {
-    private List<string> _savedPositions = new List<string>();
+    private List<string> _savedPositions = new List<string>(); //A list of all previous board positions
     [SerializeField]
     private Global _global = null;
     [SerializeField]
     private Checkmate _checkmate = null;
-    private bool _record = false;
+    private bool _record = false; //A flag so that the tests can be delayed under certain conditions
     private int _counter = 0;
-    private int _halfmove = 0;
+    private int _halfmove = 0; //Half moves for the fifty turn rule
     private bool[] _kingMove = {false, false}; //White King, Black King
     private bool[] _rookMove = {false, false, false, false}; //Order is White King, White Queen, Black King, Black Queen
 
     public void Start() {
-        _savedPositions.Add("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq");
+        _savedPositions.Add("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"); //Initial board position
     }
 
-    public void FixedUpdate() {
+    public void FixedUpdate() { //Test if the flag for board position should be recorded
         if (_record | _counter == 1) {
             _counter++;
             _record = false;
@@ -31,11 +31,11 @@ public class FEN : MonoBehaviour
         }
     }
 
-    public void Record() {
+    public void Record() { //Set the recording falg
         _record = true;
     }
 
-    private void RecordPosition() {
+    private void RecordPosition() { //The function that records the position and tests if a stalemate has occured
         string fenPosition = "";
         RaycastHit2D[] hitArray = {};
         Vector2 lastTest = new Vector3(0f,0f);
@@ -91,12 +91,12 @@ public class FEN : MonoBehaviour
         else {
             fenPosition += " b";
         }
-        fenPosition += " " + ConstructCastle();
-        Compare(fenPosition);
-        _savedPositions.Add(fenPosition);
+        fenPosition += " " + ConstructCastle(); //FEN field 3
+        Compare(fenPosition); //Check for stalemate
+        _savedPositions.Add(fenPosition); //Add the current FEN to the list
     }
 
-    private void Compare(string position) {
+    private void Compare(string position) { //Check if stalemate has occured
         int count = 0;
         foreach (string test in _savedPositions) {
             if (test == position) {
@@ -108,28 +108,28 @@ public class FEN : MonoBehaviour
         }
     }
 
-    public void RookMove(int color, int kingSide) {
+    public void RookMove(int color, int kingSide) { //Update the rooks for field 3 of FEN
         if (color == 1) {color = 2;}
         _rookMove[color+kingSide] = true;
     }
 
-    public void KingMove(int color) {
+    public void KingMove(int color) { //Update the kings for field 3 of FEN
         _kingMove[color] = true;
     }
 
-    public void Halfmove() {
+    public void Halfmove() { //Update the halfmove
         _halfmove += 1;
         if (_halfmove >= 50) {
             _checkmate.EnterStalemate("Fifty Turn Rule!");
         }
     }
 
-    public void ResetHalfmove() {
+    public void ResetHalfmove() { //Reset the halfmove is a pawnmove or piece capture occurs
         _halfmove = 0;
         _savedPositions.Clear();
     }
     
-    private string ConstructCastle() {
+    private string ConstructCastle() { //Construct FEN field 3
         string returnValue = "";
         if (!_kingMove[0] & !_kingMove[1]) {
             for (int i = 0; i < 4; i++) {
@@ -185,7 +185,7 @@ public class FEN : MonoBehaviour
         return returnValue;
     }
     
-    private string GetPieceString(GameObject piece) {
+    private string GetPieceString(GameObject piece) { //Convert a piece into the appropriate character for the FEN
         switch(piece.GetComponent<Piece>().PassPiece()) {
             case "Pawn":
                 if (piece.GetComponent<Piece>().PassColor()) {

@@ -21,7 +21,7 @@ public class Global : MonoBehaviour
     [SerializeField]
     private Checkmate _checkmate = null;
 
-    public void FixedUpdate() {
+    public void FixedUpdate() { //Test if a piece capture has occured, check for promotion occuring and update the check UI
         if (_movingPiece != null) {
             _movingPiece.GetComponent<Piece>().TestKill();
         }
@@ -44,7 +44,7 @@ public class Global : MonoBehaviour
         }
     }
 
-    public int ChangeTurn() { //Change who's turn it is
+    public int ChangeTurn() { //Change who's turn it is and preform various checks that occur when the turn changes, mostly involving FEN
         if (_turnW) {
             _turnW = false;
             GameObject[] pieces = GameObject.FindGameObjectsWithTag("White");
@@ -134,7 +134,7 @@ public class Global : MonoBehaviour
         _promoting = start;
     }
 
-    public void Disable() {
+    public void Disable() { //Disable the board, once the game ends
         GameObject[] things = GameObject.FindGameObjectsWithTag("Board");
         foreach (GameObject tile in things) {
             tile.GetComponent<Tile>().enabled = false;

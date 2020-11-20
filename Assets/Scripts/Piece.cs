@@ -25,7 +25,7 @@ public class Piece : MonoBehaviour
     private GameObject _otherPawn = null;
     private List<GameObject> _rooks = new List<GameObject>();
 
-    public void Start() {
+    public void Start() { //Set all the private variables that can't be set in the piece prefabs
         GameObject[] tests = GameObject.FindGameObjectsWithTag("Script");
         foreach (GameObject test in tests) {
             _movement = test.GetComponent<Movement>();
@@ -36,7 +36,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public void FixedUpdate() {
+    public void FixedUpdate() { //Move the piece forward if that's needed for an En Passent
         if (_lastTurnEnPassent) {
             if (_white) {
                 transform.position = new Vector3(transform.position.x, transform.position.y + 9f, -1f);
@@ -49,7 +49,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public bool PassKingSide() {
+    public bool PassKingSide() { //Is the piece on the kingside at the start of the game
         return _kingside;
     }
 
@@ -60,7 +60,7 @@ public class Piece : MonoBehaviour
         PieceClicked(true, false);
     }
 
-    public bool PieceClicked(bool move, bool overide = false) {
+    public bool PieceClicked(bool move, bool overide = false) { //What happens when you click on the piece, updates the variables related to the piece moving, threatens tiles and can change the FEN conditions if certain pieces are moved
         List<Collider2D> collisions = new List<Collider2D>();
         ContactFilter2D filters = new ContactFilter2D();
         filters.NoFilter();

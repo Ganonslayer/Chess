@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Promotion : MonoBehaviour
+public class Promotion : MonoBehaviour //All functions related to pawn promotion
 {
     private GameObject _pawn = null;
     [SerializeField]
@@ -14,11 +14,11 @@ public class Promotion : MonoBehaviour
     private Global _global = null;
     private GameObject _newPiece = null;
 
-    public void SetPawn(GameObject pawn) {
+    public void SetPawn(GameObject pawn) { //Set which pawn is being promoted
         _pawn = pawn;
     }
 
-    public void OnButtonPress() {
+    public void OnButtonPress() { //What happens when you click the button to finish promotion
         int i = 0;
         if (_global.PassTurn()) {
             i += 4;

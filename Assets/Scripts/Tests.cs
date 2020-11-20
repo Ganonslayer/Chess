@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class Tests : MonoBehaviour
+public class Tests : MonoBehaviour //All the tests used by pieces and tiles throughout a game
 {
     [SerializeField]
     private Global _global = null;
@@ -15,7 +15,7 @@ public class Tests : MonoBehaviour
     private GameObject[] _kings = {null, null};
     private bool _delayCheckmate = false;
 
-    private void FixedUpdate() {
+    private void FixedUpdate() { //The tests that occur every frame, such as check and blockable tiles
         if (!_delayCheckmate) {
             TestCheck(false);
         }
@@ -38,11 +38,11 @@ public class Tests : MonoBehaviour
         }
     }
 
-    public void DelayCheckmate() {
+    public void DelayCheckmate() { //Delay the checkmate, to avoid bugs
         _delayCheckmate = true;
     }
 
-    public bool TestMoveCheck(GameObject target) {
+    public bool TestMoveCheck(GameObject target) { //Will moving the passed piece put their king in check?
         HashSet<GameObject> threats = new HashSet<GameObject>();
         List<Collider2D> collisions = new List<Collider2D>();
         ContactFilter2D filters = new ContactFilter2D();
@@ -93,89 +93,7 @@ public class Tests : MonoBehaviour
         return false;
     }
 
-    /*public HashSet<GameObject> TestCheck(bool dummy = false) {
-        HashSet<GameObject> threats = new HashSet<GameObject>();
-        HashSet<GameObject> tiles = new HashSet<GameObject>();
-        List<Collider2D> collisions = new List<Collider2D>();
-        ContactFilter2D filters = new ContactFilter2D();
-        filters.NoFilter();
-        bool check = false;
-        filters.useTriggers = true;
-        if (!_global.PassTurn()) {
-            GameObject[] pieces = GameObject.FindGameObjectsWithTag("White");
-            foreach (GameObject pieceOb in pieces) {
-                pieceOb.GetComponent<Piece>().PieceClicked(false, true);
-            }
-            pieces = GameObject.FindGameObjectsWithTag("Black");
-            foreach (GameObject pieceOb in pieces) {
-                if (pieceOb.GetComponent<Piece>().PassPiece() == "King") {
-                    pieceOb.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
-                    foreach(Collider2D collision in collisions) {
-                        if (collision != null) {
-                            if(collision.gameObject.CompareTag("Board")) {
-                                threats = collision.gameObject.GetComponent<Tile>().PassThreats();
-                                foreach (GameObject threat in threats) {
-                                    if (threat != null) {
-                                        if (threat.CompareTag("White")) {
-                                            if (!dummy) {
-                                                check = true;
-                                                _checkmate.EnterCheck();
-                                            }
-                                            tiles.Add(collision.gameObject);
-                                            break;
-                                        }
-                                        else {
-                                            check = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else {
-            GameObject[] pieces = GameObject.FindGameObjectsWithTag("Black");
-            foreach (GameObject pieceOb in pieces) {
-                pieceOb.GetComponent<Piece>().PieceClicked(false, true);
-            }
-            pieces = GameObject.FindGameObjectsWithTag("White");
-            foreach (GameObject pieceOb in pieces) {
-                if (pieceOb.GetComponent<Piece>().PassPiece() == "King") {
-                    pieceOb.GetComponent<BoxCollider2D>().OverlapCollider(filters, collisions);
-                    foreach(Collider2D collision in collisions) {
-                        if (collision != null) {
-                            if(collision.gameObject.CompareTag("Board")) {
-                                threats = collision.gameObject.GetComponent<Tile>().PassThreats();
-                                foreach (GameObject threat in threats) {
-                                    if (threat != null) {
-                                        if (threat.CompareTag("Black")) {
-                                            if (!dummy) {
-                                                check = true;
-                                                _checkmate.EnterCheck();
-                                            }
-                                            tiles.Add(collision.gameObject);
-                                            break;
-                                        }
-                                        else {
-                                            check = false;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (!check & !dummy) {
-            _checkmate.ExitCheck();
-        }
-        return tiles;
-    }*/
-
-    public HashSet<GameObject> TestCheck(bool dummy = false) {
+    public HashSet<GameObject> TestCheck(bool dummy = false) { //Check for check
         HashSet<GameObject> threats = new HashSet<GameObject>();
         HashSet<GameObject> tiles = new HashSet<GameObject>();
         List<Collider2D> kingTiles = new List<Collider2D>();
@@ -271,7 +189,7 @@ public class Tests : MonoBehaviour
         return (tiles);
     }
 
-    public void MarkBlockableTiles(GameObject targetOb) {
+    public void MarkBlockableTiles(GameObject targetOb) { //Mark which tiles can be blocked to remove the king from check
         List<Collider2D> tilesCovered = new List<Collider2D>();
         HashSet<GameObject> threats = new HashSet<GameObject>();
         ContactFilter2D filters = new ContactFilter2D();

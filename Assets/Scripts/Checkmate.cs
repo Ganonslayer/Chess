@@ -7,7 +7,7 @@ public class Checkmate : MonoBehaviour
 {
     private bool _check = false;
     [SerializeField]
-    private GameObject _text = null;
+    private GameObject _text = null; //This and _txt are the UI components that are used to indicate checkmate and stalemate
     [SerializeField]
     private Text _txt = null;
     [SerializeField]

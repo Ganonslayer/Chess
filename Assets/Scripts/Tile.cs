@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour //The script used by each tile of the board
 {
     private HashSet<GameObject> _threateningPieces = new HashSet<GameObject>();
     private bool _movingTo = false;
@@ -13,7 +13,7 @@ public class Tile : MonoBehaviour
     private bool _blockable = false; //If a piece starts occupying this tile, will it take the king out of check
     private bool _promotionTile = false;
     
-    public void Start() {
+    public void Start() { //Set some values at the start of the game
         if (transform.position.y == 31.5f | transform.position.y == -31.5f) {
             _promotionTile = true;
         }
@@ -47,7 +47,7 @@ public class Tile : MonoBehaviour
         Movement(false);
     }
 
-    public void Movement(bool killFlag = false) {
+    public void Movement(bool killFlag = false) { //Move a piece to this tile, if a piece is currently trying to move
         Piece piece;
         int dummy = 0;
         List<GameObject> rooks = new List<GameObject>();
