@@ -9,6 +9,8 @@ public class Tile : MonoBehaviour //The script used by each tile of the board
     [SerializeField]
     private Tests _tests = null;
     [SerializeField]
+    private FEN _fen = null;
+    [SerializeField]
     private Global _global = null;
     private bool _blockable = false; //If a piece starts occupying this tile, will it take the king out of check
     private bool _promotionTile = false;
@@ -55,6 +57,12 @@ public class Tile : MonoBehaviour //The script used by each tile of the board
         if (_movingTo) {
             _tests.DelayCheckmate();
             piece = (_global.PassMovingPiece()).GetComponent<Piece>();
+            if (Mathf.Abs(transform.position.y)-Mathf.Abs(_global.PassMovingPiece().transform.position.y) == 18f) {
+                _fen.EnPassent(transform.gameObject);
+            }
+            else {
+                _fen.EnPassent("-");
+            }
             if ((transform.position.y == _global.PassMovingPiece().transform.position.y) & piece.PassPiece() == "Pawn") {
                 piece.EnPassented();
             }

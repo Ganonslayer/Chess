@@ -29,10 +29,15 @@ public class Piece : MonoBehaviour
         GameObject[] tests = GameObject.FindGameObjectsWithTag("Script");
         foreach (GameObject test in tests) {
             _movement = test.GetComponent<Movement>();
+            _fen = test.GetComponent<FEN>();
+            _tests = test.GetComponent<Tests>();
         }
         tests = GameObject.FindGameObjectsWithTag("Player");
         foreach (GameObject test in tests) {
             _global = test.GetComponent<Global>();
+        }
+        if (transform.position.x > 0) {
+            _kingside = true;
         }
     }
 
@@ -129,6 +134,7 @@ public class Piece : MonoBehaviour
         foreach (Collider2D other in collisions) {
             if (other != null) {
                 if((other.CompareTag("Black") & _white) | (other.CompareTag("White") & !_white)) {
+                    _global.UnThreaten(other.gameObject);
                     Destroy(other.gameObject);
                     break;
                 }

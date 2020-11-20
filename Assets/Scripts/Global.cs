@@ -70,6 +70,7 @@ public class Global : MonoBehaviour
         }
         else {
             _turnW = true;
+            _fen.Fullmove();
             GameObject[] pieces = GameObject.FindGameObjectsWithTag("Black");
             foreach (GameObject pieceOb in pieces) {
                 if (pieceOb != _movingPiece) {

@@ -15,6 +15,23 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
     private GameObject[] _kings = {null, null};
     private bool _delayCheckmate = false;
 
+    private void Start() {
+        GameObject[] kings = GameObject.FindGameObjectsWithTag("White");
+        foreach (GameObject king in kings) {
+            if (king.GetComponent<Piece>().PassPiece() == "King") {
+                _kings[0] = king;
+                break;
+            }
+        }
+        kings = GameObject.FindGameObjectsWithTag("Black");
+        foreach (GameObject king in kings) {
+            if (king.GetComponent<Piece>().PassPiece() == "King") {
+                _kings[1] = king;
+                break;
+            }
+        }
+    }
+
     private void FixedUpdate() { //The tests that occur every frame, such as check and blockable tiles
         if (!_delayCheckmate) {
             TestCheck(false);
@@ -131,7 +148,6 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
                             threats = kingTile.transform.gameObject.GetComponent<Tile>().PassThreats();
                             foreach (GameObject threat in threats) {
                                 if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & piece.transform.position != threat.transform.position) {
-                                    Debug.Log(threat.name);
                                     tiles.Add(kingTile.transform.gameObject);
                                     check = true;
                                     break;

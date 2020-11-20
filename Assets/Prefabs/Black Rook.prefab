@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3259027215940332131
 Transform:
   m_ObjectHideFlags: 0
@@ -125,3 +125,7 @@ MonoBehaviour:
   _pieceType: Rook
   _white: 0
   _global: {fileID: 5181822922458818171, guid: 9c1f804dab0164c13bf020f5653d64e8, type: 3}
+  _fen: {fileID: 0}
+  _tests: {fileID: 0}
+  _movement: {fileID: 0}
+  _kingside: 0

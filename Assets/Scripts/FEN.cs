@@ -13,11 +13,33 @@ public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-
     private bool _record = false; //A flag so that the tests can be delayed under certain conditions
     private int _counter = 0;
     private int _halfmove = 0; //Half moves for the fifty turn rule
+    private int _fullmove = 1;
+    private string _enPassent = "-";
     private bool[] _kingMove = {false, false}; //White King, Black King
     private bool[] _rookMove = {false, false, false, false}; //Order is White King, White Queen, Black King, Black Queen
 
     public void Start() {
         _savedPositions.Add("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq"); //Initial board position
+    }
+
+    public void Fullmove() {
+        _fullmove += 1;
+    }
+
+    public void EnPassent(string newValue) {
+        _enPassent = newValue;
+    }
+
+    public void EnPassent(GameObject tile) {
+        string newValue = "";
+        char tempValue = '-';
+        float position = tile.transform.position.y + 31.5f;
+        position = position/9f;
+        tempValue = (char)(97+(int)position);
+        newValue += tempValue;
+        position = tile.transform.position.x + 31.5f;
+        position = position/9f;
+        tempValue = (char)(49+(int)position);
     }
 
     public void FixedUpdate() { //Test if the flag for board position should be recorded
@@ -35,7 +57,7 @@ public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-
         _record = true;
     }
 
-    private void RecordPosition() { //The function that records the position and tests if a stalemate has occured
+    public string RecordPosition(bool fullFEN = false) { //The function that records the position and tests if a stalemate has occured
         string fenPosition = "";
         RaycastHit2D[] hitArray = {};
         Vector2 lastTest = new Vector3(0f,0f);
@@ -93,7 +115,13 @@ public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-
         }
         fenPosition += " " + ConstructCastle(); //FEN field 3
         Compare(fenPosition); //Check for stalemate
-        _savedPositions.Add(fenPosition); //Add the current FEN to the list
+        if (!fullFEN) {
+            _savedPositions.Add(fenPosition); //Add the current FEN to the list
+        }
+        else {
+            fenPosition += " " + _enPassent + " " + _halfmove + " " + _fullmove;
+        }
+        return (fenPosition);
     }
 
     private void Compare(string position) { //Check if stalemate has occured
