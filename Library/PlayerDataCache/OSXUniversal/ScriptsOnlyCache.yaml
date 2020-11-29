@@ -2,9 +2,12 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - Audio
+    - Board
+    - Buttons
     - Checkmate
     - FEN
     - Global
+    - MainMenu
     - Movement
     - Piece
     - Promotion
@@ -47,13 +50,14 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Dropdown
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
+    - UnityEngine.UI.InputField
     - UnityEngine.UI.Mask
     - UnityEngine.UI.ScrollRect
     - UnityEngine.UI.Scrollbar
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/GameBoard.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -77,47 +81,53 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11734}
+      Script: {instanceID: 11736}
     - Class: 114
-      Script: {instanceID: 11910}
+      Script: {instanceID: 11912}
     - Class: 114
-      Script: {instanceID: 12046}
+      Script: {instanceID: 12048}
     - Class: 114
-      Script: {instanceID: 12050}
+      Script: {instanceID: 12052}
     - Class: 114
-      Script: {instanceID: 12100}
+      Script: {instanceID: 12102}
     - Class: 114
-      Script: {instanceID: 12624}
+      Script: {instanceID: 12626}
     - Class: 114
-      Script: {instanceID: 12806}
+      Script: {instanceID: 12808}
     - Class: 114
-      Script: {instanceID: 12916}
+      Script: {instanceID: 12918}
     - Class: 114
-      Script: {instanceID: 13022}
+      Script: {instanceID: 13024}
     - Class: 114
-      Script: {instanceID: 13194}
+      Script: {instanceID: 13196}
     - Class: 114
-      Script: {instanceID: 13326}
+      Script: {instanceID: 13328}
     - Class: 114
-      Script: {instanceID: 13494}
+      Script: {instanceID: 13496}
     - Class: 114
-      Script: {instanceID: 13512}
+      Script: {instanceID: 13514}
     - Class: 114
-      Script: {instanceID: 13592}
+      Script: {instanceID: 13520}
     - Class: 114
-      Script: {instanceID: 13934}
+      Script: {instanceID: 13596}
     - Class: 114
-      Script: {instanceID: 14410}
+      Script: {instanceID: 13912}
     - Class: 114
-      Script: {instanceID: 14778}
+      Script: {instanceID: 13938}
     - Class: 114
-      Script: {instanceID: 15012}
+      Script: {instanceID: 14254}
     - Class: 114
-      Script: {instanceID: 15046}
+      Script: {instanceID: 14416}
     - Class: 114
-      Script: {instanceID: 15068}
+      Script: {instanceID: 14784}
     - Class: 114
-      Script: {instanceID: 17912}
+      Script: {instanceID: 14868}
+    - Class: 114
+      Script: {instanceID: 15020}
+    - Class: 114
+      Script: {instanceID: 15054}
+    - Class: 114
+      Script: {instanceID: 15076}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -138,7 +148,64 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 331
       Script: {instanceID: 0}
+    Assets/Scenes/GameMenu.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 11720}
+    - Class: 114
+      Script: {instanceID: 11736}
+    - Class: 114
+      Script: {instanceID: 12048}
+    - Class: 114
+      Script: {instanceID: 12102}
+    - Class: 114
+      Script: {instanceID: 12808}
+    - Class: 114
+      Script: {instanceID: 13596}
+    - Class: 114
+      Script: {instanceID: 13912}
+    - Class: 114
+      Script: {instanceID: 14416}
+    - Class: 114
+      Script: {instanceID: 15054}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 2bfd7c58889785a5b3cad4378d5a4f85
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MainMenu
   - hash:
       serializedVersion: 2
       Hash: 4bc4346a71a8df53a6b106f68ef3a190
@@ -165,7 +232,7 @@ ScriptsOnlyBuild:
     className: TMP_Dropdown
   - hash:
       serializedVersion: 2
-      Hash: a4f6098fb12853de0aa9aab66e320301
+      Hash: b73018847f98fb0ba552955cb3ece48f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Tile
@@ -435,10 +502,16 @@ ScriptsOnlyBuild:
     className: Checkmate
   - hash:
       serializedVersion: 2
-      Hash: a6a9e38c006fcb6e245d6e74cc45ef1d
+      Hash: 7227710870ce89933e4a50dd3c9219fc
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Tests
+  - hash:
+      serializedVersion: 2
+      Hash: 7d7b4f87504bfd3cbc804e46b94a5cde
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FEN
   - hash:
       serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
@@ -531,6 +604,12 @@ ScriptsOnlyBuild:
     className: TimelineAsset
   - hash:
       serializedVersion: 2
+      Hash: ce2270e3afe6e9a44d59a1d505c8557c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Board
+  - hash:
+      serializedVersion: 2
       Hash: 760787567e1b60d64a3e421ab83ee14a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -567,10 +646,16 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 4ca2bc14732e6974308a3cb53bab5744
+      Hash: 456f0c6ffae1a559b04f8054b111470d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Piece
+  - hash:
+      serializedVersion: 2
+      Hash: 3db8a4eb4b0b7ead2886fd0f236be24c
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Buttons
   - hash:
       serializedVersion: 2
       Hash: a2612813f45d0ced02c3e4bc9dbea8b4
@@ -667,13 +752,8 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: 7d7b4f87504bfd3cbc804e46b94a5cde
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: FEN
   platform: 2
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
-  playerPath: /Users/augustineputman/Desktop/Chess.app
+  - Assets/Scenes/GameMenu.unity
+  - Assets/Scenes/GameBoard.unity
+  playerPath: /Volumes/USB20FD/Chess.app
