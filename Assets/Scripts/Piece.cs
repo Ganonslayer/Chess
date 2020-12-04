@@ -17,6 +17,7 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private Movement _movement = null;
     private bool _moving = false;
+    [SerializeField]
     private bool _enPassent = false;
     private bool _moved = false;
     [SerializeField]
@@ -52,6 +53,10 @@ public class Piece : MonoBehaviour
             Destroy(_otherPawn);
             _lastTurnEnPassent = false;
         }
+    }
+
+    public void SetMoved(bool newState) {
+        _moved = newState;
     }
 
     public bool PassKingSide() { //Is the piece on the kingside at the start of the game
@@ -151,6 +156,10 @@ public class Piece : MonoBehaviour
         }
         _moved = true;
         _moving = false;
+    }
+
+    public void SetEnPassentable(bool newState) {
+        _enPassent = newState;
     }
 
     public bool PassColor() {

@@ -30,16 +30,18 @@ public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-
         _enPassent = newValue;
     }
 
-    public void EnPassent(GameObject tile) {
+    public void EnPassent(Vector2 tile) {
         string newValue = "";
         char tempValue = '-';
-        float position = tile.transform.position.y + 31.5f;
-        position = position/9f;
+        float position = tile.x + 31.5f;
+        position /= 9f;
         tempValue = (char)(97+(int)position);
         newValue += tempValue;
-        position = tile.transform.position.x + 31.5f;
-        position = position/9f;
+        position = tile.y + 31.5f;
+        position /= 9f;
         tempValue = (char)(49+(int)position);
+        newValue += tempValue;
+        _enPassent = newValue;
     }
 
     public void FixedUpdate() { //Test if the flag for board position should be recorded
@@ -150,6 +152,14 @@ public class FEN : MonoBehaviour //Stores the board positions as a FEN (Forsyth-
         if (_halfmove >= 50) {
             _checkmate.EnterStalemate("Fifty Turn Rule!");
         }
+    }
+
+    public void Halfmove(int newValue) {
+        _halfmove = newValue;
+    }
+
+    public void Fullmove(int newValue) {
+        _fullmove = newValue;
     }
 
     public void ResetHalfmove() { //Reset the halfmove is a pawnmove or piece capture occurs

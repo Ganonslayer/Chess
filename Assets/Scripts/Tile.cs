@@ -57,11 +57,13 @@ public class Tile : MonoBehaviour //The script used by each tile of the board
         if (_movingTo) {
             _tests.DelayCheckmate();
             piece = (_global.PassMovingPiece()).GetComponent<Piece>();
-            if (Mathf.Abs(transform.position.y)-Mathf.Abs(_global.PassMovingPiece().transform.position.y) == 18f) {
-                _fen.EnPassent(transform.gameObject);
-            }
-            else {
-                _fen.EnPassent("-");
+            if (piece.PassPiece() == "Pawn") {
+                if (Mathf.Abs(_global.PassMovingPiece().transform.position.y) - Mathf.Abs(transform.position.y) == 18f) {
+                    _fen.EnPassent(new Vector2(transform.position.x, transform.position.y+(Mathf.Sign(transform.position.y)*9f)));
+                }
+                else {
+                    _fen.EnPassent("-");
+                }
             }
             if ((transform.position.y == _global.PassMovingPiece().transform.position.y) & piece.PassPiece() == "Pawn") {
                 piece.EnPassented();

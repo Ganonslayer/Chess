@@ -44,6 +44,10 @@ public class Global : MonoBehaviour
         }
     }
 
+    public void SetTurn(string turn) {
+        _turnW = (turn == " w ");
+    }
+
     public int ChangeTurn() { //Change who's turn it is and preform various checks that occur when the turn changes, mostly involving FEN
         if (_turnW) {
             _turnW = false;
