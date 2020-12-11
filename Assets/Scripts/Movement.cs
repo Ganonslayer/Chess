@@ -35,11 +35,13 @@ public class Movement : MonoBehaviour //All tests related to piece movement
         }
         noMove = _tests.TestCheck(true);
         foreach (GameObject tile in noMove) {
-            tile.GetComponent<Tile>().ChangeCircleRender(false);
+            if (!tile.GetComponent<Tile>().PassThreat(_global.PassMovingPiece()) | _global.PassMovingPiece().GetComponent<Piece>().PassPiece() == "King") {
+                tile.GetComponent<Tile>().ChangeCircleRender(false);
+            }
             tile.GetComponent<Tile>().ChangeThreat(target, false);
         }
         foreach (GameObject dead in dummyKing) {
-            Destroy (dead);
+            Destroy(dead);
         }
         return (noMove.Count);
     }
@@ -157,7 +159,7 @@ public class Movement : MonoBehaviour //All tests related to piece movement
         legal[5] = MoveTest(target, new Vector2(target.transform.position.x, target.transform.position.y), (Vector2.right - Vector2.up), move, 9f, false, true);
         legal[6] = MoveTest(target, new Vector2(target.transform.position.x, target.transform.position.y), (-Vector2.right + Vector2.up), move, 9f, false, true);
         legal[7] = MoveTest(target, new Vector2(target.transform.position.x, target.transform.position.y), (-Vector2.right - Vector2.up), move, 9f, false, true);
-        if (!_checkmate.PassCheck()) {
+        if (!_checkmate.PassCheck() & !target.GetComponent<Piece>().PassMoved()) {
             CastleTest(target, move); //Check for castling if it is available
         }
         int z = KingCannotMove(target);
@@ -191,16 +193,20 @@ public class Movement : MonoBehaviour //All tests related to piece movement
             if ((hit.transform.CompareTag("Black") & _global.PassTurn()) | (hit.transform.CompareTag("White") & !_global.PassTurn())) {
                 Physics2D.OverlapCollider(hit.transform.gameObject.GetComponent<BoxCollider2D>(), filters, collisions);
                     foreach(Collider2D test in collisions) {
-                        if (test.gameObject.CompareTag("Board") & (!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable())) {
-                            test.transform.GetComponent<Tile>().ChangeThreat(target, true);
-                            if (move) {
-                                test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                        if (test) {
+                            if (test.gameObject.CompareTag("Board")) {
+                                if(!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable()) {
+                                    test.transform.GetComponent<Tile>().ChangeThreat(target, true);
+                                    if (move) {
+                                        test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                                    }
+                                    legal = true;
+                                    break;
+                                }
                             }
-                            legal = true;
-                            break;
                         }
                     }
-                    break;
+                break;
             }
         }
         hitArray = Physics2D.RaycastAll(new Vector2(target.transform.position.x, target.transform.position.y), (Vector2.up-Vector2.right), Mathf.Min(9f, Mathf.Max(-9f, distance)));
@@ -208,16 +214,20 @@ public class Movement : MonoBehaviour //All tests related to piece movement
             if ((hit.transform.CompareTag("Black") & _global.PassTurn()) | (hit.transform.CompareTag("White") & !_global.PassTurn())) {
                 Physics2D.OverlapCollider(hit.transform.gameObject.GetComponent<BoxCollider2D>(), filters, collisions);
                     foreach(Collider2D test in collisions) {
-                        if (test.gameObject.CompareTag("Board") & (!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable())) {
-                            test.transform.GetComponent<Tile>().ChangeThreat(target, true);
-                            if (move) {
-                                test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                        if (test) {
+                            if (test.gameObject.CompareTag("Board")) {
+                                if(!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable()) {
+                                    test.transform.GetComponent<Tile>().ChangeThreat(target, true);
+                                    if (move) {
+                                        test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                                    }
+                                    legal = true;
+                                    break;
+                                }
                             }
-                            legal = true;
-                            break;
                         }
                     }
-                    break;
+                break;
             }
         }
         hitArray = Physics2D.RaycastAll(new Vector2(target.transform.position.x, target.transform.position.y), Vector2.right, 9f);
@@ -226,14 +236,18 @@ public class Movement : MonoBehaviour //All tests related to piece movement
                 if ((hit.transform.GetComponent<Piece>().PassPiece() == "Pawn") & (hit.transform.position.y==4.5f | hit.transform.position.y==-4.5f) & hit.transform.GetComponent<Piece>().EnPassent()) {
                     Physics2D.OverlapCollider(hit.transform.gameObject.GetComponent<BoxCollider2D>(), filters, collisions);
                         foreach(Collider2D test in collisions) {
-                            if (test.gameObject.CompareTag("Board") & (!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable())) {
-                                test.transform.GetComponent<Tile>().ChangeThreat(target, true);
-                                if (move) {
-                                    test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                            if (test) {
+                                if (test.gameObject.CompareTag("Board")) {
+                                    if(!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable()) {
+                                        test.transform.GetComponent<Tile>().ChangeThreat(target, true);
+                                        if (move) {
+                                            test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                                        }
+                                        target.transform.GetComponent<Piece>().SetEnPassent(hit.transform.gameObject);
+                                        legal = true;
+                                        break;
+                                    }
                                 }
-                                target.transform.GetComponent<Piece>().SetEnPassent(hit.transform.gameObject);
-                                legal = true;
-                                break;
                             }
                         }
                     break;
@@ -246,14 +260,18 @@ public class Movement : MonoBehaviour //All tests related to piece movement
                 if ((hit.transform.GetComponent<Piece>().PassPiece() == "Pawn") & (hit.transform.position.y==4.5f | hit.transform.position.y==-4.5f) & hit.transform.GetComponent<Piece>().EnPassent()) {
                     Physics2D.OverlapCollider(hit.transform.gameObject.GetComponent<BoxCollider2D>(), filters, collisions);
                         foreach(Collider2D test in collisions) {
-                            if (test.gameObject.CompareTag("Board") & (!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable())) {
-                                test.transform.GetComponent<Tile>().ChangeThreat(target, true);
-                                if (move) {
-                                    test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                            if (test) {
+                                if (test.gameObject.CompareTag("Board")) {
+                                    if(!_checkmate.PassCheck() | test.transform.gameObject.GetComponent<Tile>().Blockable()) {
+                                        test.transform.GetComponent<Tile>().ChangeThreat(target, true);
+                                        if (move) {
+                                            test.transform.GetComponent<Tile>().ChangeCircleRender(true);
+                                        }
+                                        target.transform.GetComponent<Piece>().SetEnPassent(hit.transform.gameObject);
+                                        legal = true;
+                                        break;
+                                    }
                                 }
-                                target.transform.GetComponent<Piece>().SetEnPassent(hit.transform.gameObject);
-                                legal = true;
-                                break;
                             }
                         }
                     break;

@@ -12,6 +12,7 @@ public class Tile : MonoBehaviour //The script used by each tile of the board
     private FEN _fen = null;
     [SerializeField]
     private Global _global = null;
+    [SerializeField]
     private bool _blockable = false; //If a piece starts occupying this tile, will it take the king out of check
     private bool _promotionTile = false;
     

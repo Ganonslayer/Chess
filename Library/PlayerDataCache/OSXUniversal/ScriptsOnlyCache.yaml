@@ -232,7 +232,7 @@ ScriptsOnlyBuild:
     className: TMP_Dropdown
   - hash:
       serializedVersion: 2
-      Hash: b73018847f98fb0ba552955cb3ece48f
+      Hash: 75462757a96ceee9f3331ce80a85a05e
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Tile
@@ -604,7 +604,7 @@ ScriptsOnlyBuild:
     className: TimelineAsset
   - hash:
       serializedVersion: 2
-      Hash: ce2270e3afe6e9a44d59a1d505c8557c
+      Hash: 7d5be74d669924ce3cef53f5f0cb72e8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Board
@@ -646,7 +646,7 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 456f0c6ffae1a559b04f8054b111470d
+      Hash: 14967d411bb90984a01226eb3a752487
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Piece
@@ -756,4 +756,4 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/GameMenu.unity
   - Assets/Scenes/GameBoard.unity
-  playerPath: /Volumes/USB20FD/Chess.app
+  playerPath: /Users/augustineputman/Desktop/Chess.app

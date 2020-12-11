@@ -17,10 +17,8 @@ public class Piece : MonoBehaviour
     [SerializeField]
     private Movement _movement = null;
     private bool _moving = false;
-    [SerializeField]
     private bool _enPassent = false;
     private bool _moved = false;
-    [SerializeField]
     private bool _kingside = false;
     private bool _lastTurnEnPassent = false;
     private GameObject _otherPawn = null;

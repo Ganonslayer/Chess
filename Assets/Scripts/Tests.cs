@@ -147,10 +147,12 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
                         if (kingTile.transform.gameObject.CompareTag("Board")) {
                             threats = kingTile.transform.gameObject.GetComponent<Tile>().PassThreats();
                             foreach (GameObject threat in threats) {
-                                if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & piece.transform.position != threat.transform.position) {
-                                    tiles.Add(kingTile.transform.gameObject);
-                                    check = true;
-                                    break;
+                                if (threat) {
+                                    if (threat.CompareTag(tag[1]) == piece.CompareTag(tag[0]) & piece.transform.position != threat.transform.position) {
+                                        tiles.Add(kingTile.transform.gameObject);
+                                        check = true;
+                                        break;
+                                    }
                                 }
                             }
                         }
@@ -220,21 +222,23 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
             if (tile.transform.gameObject != null & tile.tag == "Board") {
                 threats = tile.transform.gameObject.GetComponent<Tile>().PassThreats();
                 foreach (GameObject threat in threats) {
-                    if (threat.tag != targetOb.tag) {
-                        toPosition = threat.transform.position;
-                        if (threat.GetComponent<Piece>().PassPiece() == "Knight") {
-                            fromPosition = threat.transform.position;
-                            skip = true;
-                        }
-                        direction = toPosition - fromPosition;
-                        RaycastHit2D[] hitArray = Physics2D.RaycastAll(new Vector2(fromPosition.x, fromPosition.y), direction, Mathf.Sqrt(Mathf.Pow(fromPosition.x-toPosition.x, 2) + Mathf.Pow(fromPosition.y-toPosition.y, 2)));
-                        foreach (RaycastHit2D hit in hitArray) {
-                            if (!skip) {
+                    if (threat) {
+                        if (threat.tag != targetOb.tag) {
+                            toPosition = threat.transform.position;
+                            if (threat.GetComponent<Piece>().PassPiece() == "Knight") {
+                                fromPosition = threat.transform.position;
                                 skip = true;
-                                continue;
                             }
-                            if (hit.transform.gameObject.CompareTag("Board")) {
-                                hit.transform.gameObject.GetComponent<Tile>().CanBlock(true);
+                            direction = toPosition - fromPosition;
+                            RaycastHit2D[] hitArray = Physics2D.RaycastAll(new Vector2(fromPosition.x, fromPosition.y), direction, Mathf.Sqrt(Mathf.Pow(fromPosition.x-toPosition.x, 2) + Mathf.Pow(fromPosition.y-toPosition.y, 2)));
+                            foreach (RaycastHit2D hit in hitArray) {
+                                if (!skip) {
+                                    skip = true;
+                                    continue;
+                                }
+                                if (hit.transform.gameObject.CompareTag("Board")) {
+                                    hit.transform.gameObject.GetComponent<Tile>().CanBlock(true);
+                                }
                             }
                         }
                     }

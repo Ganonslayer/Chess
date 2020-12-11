@@ -93,6 +93,13 @@ public class Board : MonoBehaviour
             else if (inactive.GetComponent<Piece>().PassPiece() == "Rook") {
                 rooks.Add(inactive);
             }
+            else if (inactive.GetComponent<Piece>().PassPiece() == "Pawn") {
+                if (Mathf.Abs(inactive.transform.position.y) != 18f) {
+                    if ((Mathf.Sign(inactive.transform.position.y) == 1) != inactive.CompareTag("Black")) {
+                        inactive.GetComponent<Piece>().SetMoved(true);
+                    }
+                }
+            }
         }
         matches = Regex.Matches(boardPosition, @"[ ]\d+[ ]");
         foreach(Match match in matches) {

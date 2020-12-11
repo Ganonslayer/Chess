@@ -18,7 +18,7 @@ public class Audio : MonoBehaviour //Just an easter egg that came from a joke in
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Time.time - _oldTime == 60 & !_playing) { //If a full minute has passed, play the song
+        if (Time.time - _oldTime >= 60 & !_playing) { //If a full minute has passed, play the song
             _annoyance.Play();
             _playing = true;
         }
