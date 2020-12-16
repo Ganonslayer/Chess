@@ -62,6 +62,7 @@ public class Promotion : MonoBehaviour //All functions related to pawn promotion
                 Destroy(_pawn);
                 break;
         }
+        _newPiece.SetActive(true);
         _global.AssignMovingPiece(_newPiece);
         _global.Promote(false);
     }

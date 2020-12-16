@@ -188,13 +188,10 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
             }
         }
         else if(!check & !dummy) {
+            safe = false;
             foreach (GameObject piece in pieces) {
-                if (piece.GetComponent<Piece>().PieceClicked(false, true)) {
+                if (piece.GetComponent<Piece>().PieceClicked(false, true, true)) {
                     safe = true;
-                    break;
-                }
-                else {
-                    safe = false;
                 }
             }
             if (safe) {

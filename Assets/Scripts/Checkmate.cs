@@ -37,6 +37,7 @@ public class Checkmate : MonoBehaviour
     }
 
     public void EnterStalemate(string reason) {
+        Debug.Log("");
         _txt.text = "Stalemate!\nNo Winner!\n" + reason;
         _text.SetActive(true);
         _global.Disable();

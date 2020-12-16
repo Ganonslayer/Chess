@@ -68,7 +68,7 @@ public class Piece : MonoBehaviour
         PieceClicked(true, false);
     }
 
-    public bool PieceClicked(bool move, bool overide = false) { //What happens when you click on the piece, updates the variables related to the piece moving, threatens tiles and can change the FEN conditions if certain pieces are moved
+    public bool PieceClicked(bool move, bool overide = false, bool overide2 = false) { //What happens when you click on the piece, updates the variables related to the piece moving, threatens tiles and can change the FEN conditions if certain pieces are moved
         List<Collider2D> collisions = new List<Collider2D>();
         ContactFilter2D filters = new ContactFilter2D();
         filters.NoFilter();
@@ -88,7 +88,7 @@ public class Piece : MonoBehaviour
                         legalMove = _movement.QueenMoveTest(transform.gameObject, move);
                         break;
                     case "King":
-                        if (!overide) {
+                        if (!overide | overide2) {
                             legalMove = _movement.KingMoveTest(transform.gameObject, move);
                         }
                         break;
