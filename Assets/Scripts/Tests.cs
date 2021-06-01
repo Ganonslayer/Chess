@@ -189,17 +189,18 @@ public class Tests : MonoBehaviour //All the tests used by pieces and tiles thro
         }
         else if(!check & !dummy) {
             safe = false;
+            _checkmate.ExitCheck();
             foreach (GameObject piece in pieces) {
                 if (piece.GetComponent<Piece>().PieceClicked(false, true, true)) {
                     safe = true;
                 }
             }
-            if (safe) {
-                _checkmate.ExitCheck();
-            }
-            else {
+            if (!safe) {
                 _checkmate.EnterStalemate("No Legal Moves!");
             }
+            //else {
+                //_checkmate.EnterStalemate("No Legal Moves!");
+            //}
         }
         return (tiles);
     }
